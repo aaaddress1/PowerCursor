@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // 變更這些屬性的值即可修改組件的相關
 // 資訊。
 [assembly: AssemblyTitle("PowerCursor")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("https://github.com/aaaddress1/PowerCursor")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("aaaddress1@gmail.com")]
 [assembly: AssemblyProduct("PowerCursor")]
 [assembly: AssemblyCopyright("Copyright ©  2024")]
 [assembly: AssemblyTrademark("")]

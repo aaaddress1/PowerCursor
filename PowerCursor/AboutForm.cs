@@ -1,10 +1,14 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -132,15 +136,25 @@ namespace PowerCursor
             }
         }
 
-        private void AboutForm_Load(object sender, EventArgs e)
-        {
 
+        static bool IsStartupItem(string appName)
+        {
+            string key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+            using (RegistryKey regKey = Registry.CurrentUser.OpenSubKey(key, false))
+            {
+                if (regKey != null)
+                {
+                    return regKey.GetValue(appName) != null;
+                }
+                return false;
+            }
         }
 
         public AboutForm()
         {
             InitializeComponent();
-
+            this.Visible = false;  
+            this.RunAsStartup.Checked = IsStartupItem("PowerCursor") ;
             var t = (new Thread(() =>
             { // 設置 WinEvent 掛鉤
                 WinEventProc procDelegate = new WinEventProc(WinEventProcMethod);
@@ -163,5 +177,86 @@ namespace PowerCursor
             t.Start();
         }
 
+        private void linkLabel_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/aaaddress1/PowerCursor",
+                UseShellExecute = true
+            });
+        }
+
+        private void RunAsStartup_CheckedChanged(object sender, EventArgs e)
+        {
+            if (this.RunAsStartup.Checked)
+            {
+                string appPath = Application.ExecutablePath;
+                string key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+               
+                var regKey = Registry.CurrentUser.CreateSubKey(key);
+                regKey.SetValue("PowerCursor", appPath);
+                
+            }
+            else
+            {
+                string key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
+                RegistryKey regKey = Registry.CurrentUser.OpenSubKey(key, true);
+                if (regKey == null)
+                {
+                    regKey = Registry.CurrentUser.CreateSubKey(key);
+                    regKey.DeleteSubKey("PowerCursor");
+                }
+            }
+        }
+
+        private void AboutForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            this.Hide();
+        }
+
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void pictureBox_Click(object sender, EventArgs e)
+        {
+            Process.Start("https://www.buymeacoffee.com/aaaddress1");
+        }
+
+        private void contextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void githubcomaaaddress1PowerCursorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = "https://github.com/aaaddress1/PowerCursor",
+                UseShellExecute = true
+            });
+
+        }
+
+        private void applicationBehaviorConfigureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Visible = true;
+            this.Show();
+        }
+
+        private void notifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            this.Visible = true;
+            this.Show();
+        }
+        private void byeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Process.GetCurrentProcess().Kill();
+        }
+
+        private void AboutForm_Shown(object sender, EventArgs e)
+        {
+        }
     }
 }
