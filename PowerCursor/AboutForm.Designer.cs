@@ -32,14 +32,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(AboutForm));
             this.RunAsStartup = new System.Windows.Forms.CheckBox();
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.applicationBehaviorConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.linkLabel = new System.Windows.Forms.LinkLabel();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.byeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.applicationBehaviorConfigureToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // RunAsStartup
@@ -56,11 +56,44 @@
             // notifyIcon
             // 
             this.notifyIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.notifyIcon.BalloonTipText = "PowerCursor v1.1";
             this.notifyIcon.ContextMenuStrip = this.contextMenuStrip;
             this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
             this.notifyIcon.Text = "PowerCursor";
             this.notifyIcon.Visible = true;
             this.notifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon_MouseDoubleClick);
+            // 
+            // contextMenuStrip
+            // 
+            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
+            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.applicationBehaviorConfigureToolStripMenuItem,
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem,
+            this.byeToolStripMenuItem});
+            this.contextMenuStrip.Name = "contextMenuStrip";
+            this.contextMenuStrip.Size = new System.Drawing.Size(398, 94);
+            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
+            // 
+            // applicationBehaviorConfigureToolStripMenuItem
+            // 
+            this.applicationBehaviorConfigureToolStripMenuItem.Name = "applicationBehaviorConfigureToolStripMenuItem";
+            this.applicationBehaviorConfigureToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.applicationBehaviorConfigureToolStripMenuItem.Text = "Application Behavior Configure";
+            this.applicationBehaviorConfigureToolStripMenuItem.Click += new System.EventHandler(this.applicationBehaviorConfigureToolStripMenuItem_Click);
+            // 
+            // githubcomaaaddress1PowerCursorToolStripMenuItem
+            // 
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Name = "githubcomaaaddress1PowerCursorToolStripMenuItem";
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Text = "github.com/aaaddress1/PowerCursor";
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Click += new System.EventHandler(this.githubcomaaaddress1PowerCursorToolStripMenuItem_Click);
+            // 
+            // byeToolStripMenuItem
+            // 
+            this.byeToolStripMenuItem.Name = "byeToolStripMenuItem";
+            this.byeToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.byeToolStripMenuItem.Text = "Bye~";
+            this.byeToolStripMenuItem.Click += new System.EventHandler(this.byeToolStripMenuItem_Click);
             // 
             // linkLabel
             // 
@@ -87,38 +120,6 @@
             this.pictureBox.TabStop = false;
             this.pictureBox.Click += new System.EventHandler(this.pictureBox_Click);
             // 
-            // contextMenuStrip
-            // 
-            this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.applicationBehaviorConfigureToolStripMenuItem,
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem,
-            this.byeToolStripMenuItem});
-            this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(398, 94);
-            this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
-            // 
-            // byeToolStripMenuItem
-            // 
-            this.byeToolStripMenuItem.Name = "byeToolStripMenuItem";
-            this.byeToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
-            this.byeToolStripMenuItem.Text = "Bye~";
-            this.byeToolStripMenuItem.Click += new System.EventHandler(this.byeToolStripMenuItem_Click);
-            // 
-            // githubcomaaaddress1PowerCursorToolStripMenuItem
-            // 
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Name = "githubcomaaaddress1PowerCursorToolStripMenuItem";
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Text = "github.com/aaaddress1/PowerCursor";
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Click += new System.EventHandler(this.githubcomaaaddress1PowerCursorToolStripMenuItem_Click);
-            // 
-            // applicationBehaviorConfigureToolStripMenuItem
-            // 
-            this.applicationBehaviorConfigureToolStripMenuItem.Name = "applicationBehaviorConfigureToolStripMenuItem";
-            this.applicationBehaviorConfigureToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
-            this.applicationBehaviorConfigureToolStripMenuItem.Text = "Application Behavior Configure";
-            this.applicationBehaviorConfigureToolStripMenuItem.Click += new System.EventHandler(this.applicationBehaviorConfigureToolStripMenuItem_Click);
-            // 
             // AboutForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -134,13 +135,13 @@
             this.Name = "AboutForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PowerCursor v1.0";
+            this.Text = "PowerCursor v1.1";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AboutForm_FormClosing);
             this.Load += new System.EventHandler(this.AboutForm_Load);
             this.Shown += new System.EventHandler(this.AboutForm_Shown);
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
