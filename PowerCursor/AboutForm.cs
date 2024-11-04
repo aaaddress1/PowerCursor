@@ -98,7 +98,7 @@ namespace PowerCursor
             public uint dwFlags;
         }
 
-        static IntPtr lastSwitchMontor = IntPtr.Zero;
+        //static IntPtr lastSwitchMontor = IntPtr.Zero;
         private const uint EVENT_SYSTEM_SWITCHEND = 0x8000;
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         private static extern int GetWindowText(IntPtr hWnd, StringBuilder lpString, int nMaxCount);
@@ -118,9 +118,13 @@ namespace PowerCursor
         static extern IntPtr GetLastActivePopup(IntPtr hWnd);
 
 
-        private const uint EVENT_OBJECT_DESTROY = 0x8001;
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr MonitorFromPoint(POINT pt, uint dwFlags);
         const uint GA_ROOTOWNER = 3;
-        
+
         static bool IsAltTabWindow(IntPtr hWnd) // ref: https://devblogs.microsoft.com/oldnewthing/20071008-00/?p=24863
         {
             // Start at the root owner
@@ -135,34 +139,33 @@ namespace PowerCursor
             return hwndWalk == hWnd;
         }
 
-        private static int lastShowExplorerSwitcher = 0;
         private static void WinEventProcMethod(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
         {
-            IntPtr current = GetForegroundWindow();
+            IntPtr focusedWindow = GetForegroundWindow();
             StringBuilder className = new StringBuilder(256);
-            GetClassName(current, className, className.Capacity);
+            GetClassName(focusedWindow, className, className.Capacity);
             // explorer switcher - Foreground window title: XamlExplorerHostIslandWindow
             
 
-            if (eventType == EVENT_OBJECT_DESTROY)
-            {
-                if (className.ToString().ToLower().Contains("ExplorerHostIslandWindow".ToLower()))
-                    lastShowExplorerSwitcher = Environment.TickCount;
-                return;
-            }
-
-            //Debug.Print($"Foreground window title: {className} - {lastShowExplorerSwitcher} - {IsAltTabWindow(current)}");
-
             if (eventType == EVENT_SYSTEM_FOREGROUND) {
                 // 获取窗口所在的显示器
-                IntPtr hMonitor = MonitorFromWindow(current, MONITOR_DEFAULTTONEAREST);
+                IntPtr monitorOf_focusWindow = MonitorFromWindow(focusedWindow, MONITOR_DEFAULTTONEAREST);
+
+
+                // 獲取滑鼠的當前位置
+                POINT cursorPos;
+                GetCursorPos(out cursorPos);
+
+                // 獲取滑鼠所在的螢幕`
+                IntPtr cursor_monitor = MonitorFromPoint(cursorPos, MONITOR_DEFAULTTONEAREST);
 
                 //Debug.Print($"last tick intveral = {(Environment.TickCount - lastShowExplorerSwitcher)}");
-                if (hMonitor != IntPtr.Zero && hMonitor != lastSwitchMontor && IsAltTabWindow(current) && (Environment.TickCount - lastShowExplorerSwitcher) < 500)
+                if (monitorOf_focusWindow != IntPtr.Zero 
+                    && IsAltTabWindow(focusedWindow) && monitorOf_focusWindow != cursor_monitor)// && (Environment.TickCount - lastShowExplorerSwitcher) < 500)
                 {
                     MONITORINFO mi = new MONITORINFO();
                     mi.cbSize = (uint)Marshal.SizeOf(mi);
-                    if (GetMonitorInfo(hMonitor, ref mi))
+                    if (GetMonitorInfo(monitorOf_focusWindow, ref mi))
                     {
                         // 输出显示器信息
                         //Debug.Print($"显示器尺寸: 左 {mi.rcMonitor.Left}, 顶 {mi.rcMonitor.Top}, 右 {mi.rcMonitor.Right}, 底 {mi.rcMonitor.Bottom}");
@@ -172,11 +175,14 @@ namespace PowerCursor
                         {
                             int win_centerX = (rect.Left + rect.Right) / 2;
                             int win_centerY = (rect.Top + rect.Bottom) / 2;
-                            //Debug.Print($"窗口中央 X= {win_centerX}, {win_centerY}");
-                            //int centerX = mi.rcWork.Left + rect.Left;
-                            //int centerY = mi.rcWork.Top + rect.Top;
-                            SetCursorPos(win_centerX, win_centerY);
-                            lastSwitchMontor = hMonitor;
+
+                            if (win_centerX == mi.rcWork.Left && win_centerY == mi.rcWork.Top) { 
+                            int monitor_centerX = (mi.rcWork.Left + mi.rcWork.Right) / 2;
+                            int monitor_centerY = (mi.rcWork.Top + mi.rcWork.Bottom) / 2;
+                                SetCursorPos(monitor_centerX, monitor_centerY);
+                            }
+                            else
+                                SetCursorPos(win_centerX, win_centerY);
                         }
 
                     }
@@ -210,17 +216,19 @@ namespace PowerCursor
                     EVENT_SYSTEM_FOREGROUND, EVENT_SYSTEM_FOREGROUND,
                     IntPtr.Zero, procDelegate, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
 
-                SetWinEventHook(
+                /*SetWinEventHook(
                    EVENT_OBJECT_DESTROY, EVENT_OBJECT_DESTROY,
                    IntPtr.Zero, procDelegate, 0, 0, WINEVENT_OUTOFCONTEXT | WINEVENT_SKIPOWNPROCESS);
-
+                */
                 // 開啟消息循環，以便 WinEventProc 能夠被調用
                 MSG msg;
-                while (GetMessage(out msg, IntPtr.Zero, 0, 0))
-                {
-                    TranslateMessage(ref msg);
-                    DispatchMessage(ref msg);
-                }
+                
+                    while (GetMessage(out msg, IntPtr.Zero, 0, 0))
+                    {
+                        TranslateMessage(ref msg);
+                        DispatchMessage(ref msg);
+                    }
+                
 
             })
             { IsBackground = true });
@@ -262,7 +270,7 @@ namespace PowerCursor
         private void AboutForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = true;
-            this.Hide();
+            this.Visible = false;
         }
 
         private void AboutForm_Load(object sender, EventArgs e)
