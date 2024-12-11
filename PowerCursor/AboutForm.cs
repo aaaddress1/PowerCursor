@@ -139,13 +139,19 @@ namespace PowerCursor
             return hwndWalk == hWnd;
         }
 
+        static int lastShowExplorerSwitcher = 0;
         private static void WinEventProcMethod(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint idEventThread, uint dwmsEventTime)
         {
             IntPtr focusedWindow = GetForegroundWindow();
             StringBuilder className = new StringBuilder(256);
             GetClassName(focusedWindow, className, className.Capacity);
             // explorer switcher - Foreground window title: XamlExplorerHostIslandWindow
-            
+
+
+
+            if (className.ToString().ToLower().Contains("ExplorerHostIslandWindow".ToLower()))
+                lastShowExplorerSwitcher = Environment.TickCount;
+             
 
             if (eventType == EVENT_SYSTEM_FOREGROUND) {
                 // 获取窗口所在的显示器
@@ -161,7 +167,7 @@ namespace PowerCursor
 
                 //Debug.Print($"last tick intveral = {(Environment.TickCount - lastShowExplorerSwitcher)}");
                 if (monitorOf_focusWindow != IntPtr.Zero 
-                    && IsAltTabWindow(focusedWindow) && monitorOf_focusWindow != cursor_monitor)// && (Environment.TickCount - lastShowExplorerSwitcher) < 500)
+                    && IsAltTabWindow(focusedWindow) && monitorOf_focusWindow != cursor_monitor && (Environment.TickCount - lastShowExplorerSwitcher) < 10000) // last preview of Alt-Tab Switch less than ~10s
                 {
                     MONITORINFO mi = new MONITORINFO();
                     mi.cbSize = (uint)Marshal.SizeOf(mi);
@@ -176,6 +182,7 @@ namespace PowerCursor
                             int win_centerX = (rect.Left + rect.Right) / 2;
                             int win_centerY = (rect.Top + rect.Bottom) / 2;
 
+                            lastShowExplorerSwitcher = 0;
                             if (win_centerX == mi.rcWork.Left && win_centerY == mi.rcWork.Top) { 
                             int monitor_centerX = (mi.rcWork.Left + mi.rcWork.Right) / 2;
                             int monitor_centerY = (mi.rcWork.Top + mi.rcWork.Bottom) / 2;
@@ -248,7 +255,7 @@ namespace PowerCursor
         {
             if (this.RunAsStartup.Checked)
             {
-                string appPath = Application.ExecutablePath;
+                string appPath = Application.ExecutablePath + @" --background";
                 string key = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Run";
                
                 var regKey = Registry.CurrentUser.CreateSubKey(key);
@@ -315,6 +322,8 @@ namespace PowerCursor
 
         private void AboutForm_Shown(object sender, EventArgs e)
         {
+            var args = Environment.CommandLine;
+            this.Visible = !args.Contains("--background");
         }
     }
 }

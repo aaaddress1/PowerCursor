@@ -45,9 +45,10 @@
             // RunAsStartup
             // 
             this.RunAsStartup.AutoSize = true;
-            this.RunAsStartup.Location = new System.Drawing.Point(25, 55);
+            this.RunAsStartup.Location = new System.Drawing.Point(33, 69);
+            this.RunAsStartup.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.RunAsStartup.Name = "RunAsStartup";
-            this.RunAsStartup.Size = new System.Drawing.Size(371, 24);
+            this.RunAsStartup.Size = new System.Drawing.Size(493, 29);
             this.RunAsStartup.TabIndex = 0;
             this.RunAsStartup.Text = "Run as Windows Startup Program After Reboot";
             this.RunAsStartup.UseVisualStyleBackColor = true;
@@ -71,27 +72,27 @@
             this.githubcomaaaddress1PowerCursorToolStripMenuItem,
             this.byeToolStripMenuItem});
             this.contextMenuStrip.Name = "contextMenuStrip";
-            this.contextMenuStrip.Size = new System.Drawing.Size(398, 94);
+            this.contextMenuStrip.Size = new System.Drawing.Size(511, 112);
             this.contextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.contextMenuStrip_Opening);
             // 
             // applicationBehaviorConfigureToolStripMenuItem
             // 
             this.applicationBehaviorConfigureToolStripMenuItem.Name = "applicationBehaviorConfigureToolStripMenuItem";
-            this.applicationBehaviorConfigureToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.applicationBehaviorConfigureToolStripMenuItem.Size = new System.Drawing.Size(510, 36);
             this.applicationBehaviorConfigureToolStripMenuItem.Text = "Application Behavior Configure";
             this.applicationBehaviorConfigureToolStripMenuItem.Click += new System.EventHandler(this.applicationBehaviorConfigureToolStripMenuItem_Click);
             // 
             // githubcomaaaddress1PowerCursorToolStripMenuItem
             // 
             this.githubcomaaaddress1PowerCursorToolStripMenuItem.Name = "githubcomaaaddress1PowerCursorToolStripMenuItem";
-            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.githubcomaaaddress1PowerCursorToolStripMenuItem.Size = new System.Drawing.Size(510, 36);
             this.githubcomaaaddress1PowerCursorToolStripMenuItem.Text = "github.com/aaaddress1/PowerCursor";
             this.githubcomaaaddress1PowerCursorToolStripMenuItem.Click += new System.EventHandler(this.githubcomaaaddress1PowerCursorToolStripMenuItem_Click);
             // 
             // byeToolStripMenuItem
             // 
             this.byeToolStripMenuItem.Name = "byeToolStripMenuItem";
-            this.byeToolStripMenuItem.Size = new System.Drawing.Size(397, 30);
+            this.byeToolStripMenuItem.Size = new System.Drawing.Size(510, 36);
             this.byeToolStripMenuItem.Text = "Bye~";
             this.byeToolStripMenuItem.Click += new System.EventHandler(this.byeToolStripMenuItem_Click);
             // 
@@ -99,9 +100,10 @@
             // 
             this.linkLabel.AutoSize = true;
             this.linkLabel.LinkColor = System.Drawing.Color.Teal;
-            this.linkLabel.Location = new System.Drawing.Point(21, 23);
+            this.linkLabel.Location = new System.Drawing.Point(28, 29);
+            this.linkLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.linkLabel.Name = "linkLabel";
-            this.linkLabel.Size = new System.Drawing.Size(270, 20);
+            this.linkLabel.Size = new System.Drawing.Size(366, 25);
             this.linkLabel.TabIndex = 1;
             this.linkLabel.TabStop = true;
             this.linkLabel.Text = "github.com/aaaddress1/PowerCursor";
@@ -112,9 +114,10 @@
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.pictureBox.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox.Image")));
-            this.pictureBox.Location = new System.Drawing.Point(25, 94);
+            this.pictureBox.Location = new System.Drawing.Point(33, 118);
+            this.pictureBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox.Name = "pictureBox";
-            this.pictureBox.Size = new System.Drawing.Size(371, 93);
+            this.pictureBox.Size = new System.Drawing.Size(494, 116);
             this.pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox.TabIndex = 2;
             this.pictureBox.TabStop = false;
@@ -122,14 +125,15 @@
             // 
             // AboutForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 209);
+            this.ClientSize = new System.Drawing.Size(549, 261);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.linkLabel);
             this.Controls.Add(this.RunAsStartup);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "AboutForm";
