@@ -1,5 +1,5 @@
 # PowerCursor
-<img width="400" alt="PowerCursor_NeHx4rhaV5" src="https://github.com/user-attachments/assets/cf99b080-aa81-40c6-8348-b0ce43606b1c">
+<img width="400" alt="PowerCursor_NeHx4rhaV5" src="https://github.com/aaaddress1/PowerCursor/releases/download/1.1/explorer_RByYoeEa6I.png">
 
 Let your Windows support multi-screen Alt-Tab or laptop touchpad gestures to switch windows 
 while moving your mouse cursor following to the focus window 
